@@ -35,6 +35,7 @@ compiler:
             runs: 200
         remappings: 
           - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.6.0"
+          - "@uniswapp=Uniswap/v3-periphery@1.3.0"
     vyper:
         version: null
 
