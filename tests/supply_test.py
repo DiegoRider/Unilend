@@ -1,4 +1,4 @@
-from brownie import accounts, SupplyContract
+from brownie import accounts, SupplyContract, TestToken
 import pytest
 
 
@@ -9,11 +9,14 @@ def test_account_balance():
 
 @pytest.fixture
 def supply_contract():
-    return accounts[0].deploy(SupplyContract)
+    deployed_token = accounts[0].deploy(TestToken)
+    return accounts[0].deploy(SupplyContract, deployed_token)
 
 def test_supply(supply_contract):
-    output = supply_contract.doMath()
-    assert output == 12
+    print(supply_contract)
+    output = supply_contract.getLiquidity(10)
+    print(output)
+    assert output == 0
 
     
 
