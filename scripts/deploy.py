@@ -2,15 +2,12 @@ from brownie import *
 from brownie import TestToken, SupplyContract
 
 def main():
-    deployed_token = TestToken.deploy({'from': accounts[0]})
 
-    for i in range(2):
-        deployed_token.mint(accounts[i], 10*1e18)
+    token = accounts[0].deploy(TestToken)
+    for i in range(5):
+        token.mint(accounts[i], 1000)
 
-    deployed_supply = SupplyContract.deploy(deployed_token, {'from': accounts[0]})
+    supply_contract = accounts[0].deploy(SupplyContract, token)
 
-    deployed_token.approve(deployed_supply, 2**256 - 1, {'from':accounts[1]})
-    # uint256 MAX_INT = 2**256 - 1;
-    # ERC20(supplyToken).approve(address(this), MAX_INT);
-
-    deployed_supply.depositAndLock(1e18, 10, {'from': accounts[1]})
+    token.approve(supply_contract, 2**256 - 1, {'from':accounts[1]})
+    supply_contract.depositAndLock(100, 20, 0, {'from': accounts[1]})
